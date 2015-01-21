@@ -27,6 +27,9 @@ public class Server {
         }
     }
 
+    /**
+     * A communication channel on its own thread
+     * */
     private static class CommunicationChannel extends Thread {
         private Socket socket;
 
