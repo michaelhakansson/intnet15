@@ -56,16 +56,27 @@ public class Server {
     public static void main(String[] args) throws IOException {
         System.out.println("Chat server has been started");
 
-        ServerSocket listener = new ServerSocket(1337);
+        ServerSocket listener = new ServerSocket(80);
 
-        new Thread(new Connection(listener.accept())).start();
+        new Thread(new Distributor()).start();
 
         while (true) {
-            distributeMessages();
+            new Thread(new Connection(listener.accept())).start();
         }
 
     }
 
+    /**
+     * Class for distributing the messages. This is run in an own thread.
+     */
+    private static class Distributor implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                distributeMessages();
+            }
+        }
+    }
     /**
      * Each connected client receives its own thread for the connection.
      */
@@ -84,6 +95,7 @@ public class Server {
             System.out.println("LOG: " + message);
         }
 
+        @Override
         public void run() {
             try {
 

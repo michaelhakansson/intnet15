@@ -15,7 +15,7 @@ public class Client {
         System.out.println("Enter server address: ");
         String serverAddress = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
-        Socket socket = new Socket(serverAddress, 1337);
+        Socket socket = new Socket(serverAddress, 80);
         BufferedReader in = new BufferedReader( new InputStreamReader(socket.getInputStream()) );
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
