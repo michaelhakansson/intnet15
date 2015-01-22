@@ -10,7 +10,7 @@ import java.util.Queue;
 import java.util.Vector;
 
 /**
- * A multi threaded TCP chat server that runs on port 1337.
+ * A multi threaded TCP chat server that runs on port 8080.
  */
 public class Server {
     //Contains a list of all the clients
@@ -56,7 +56,7 @@ public class Server {
     public static void main(String[] args) throws IOException {
         System.out.println("Chat server has been started");
 
-        ServerSocket listener = new ServerSocket(80);
+        ServerSocket listener = new ServerSocket(8080);
 
         new Thread(new Distributor()).start();
 
