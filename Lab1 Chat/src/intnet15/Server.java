@@ -98,6 +98,7 @@ public class Server {
                     username = in.readLine(); // Read username from client
                 }
                 addClient(out); // Add the clients out channel to the client list
+                out.println("WELCOME"); // Send welcome status message
                 log("User " + username + " has entered the chat");
 
                 // Read messages
@@ -108,8 +109,6 @@ public class Server {
                         log("Message from " + username + " added to message list");
                     }
                 }
-
-                // TODO Send messages in own thread
 
             } catch (IOException e) {
                 e.printStackTrace();
