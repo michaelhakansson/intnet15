@@ -1,6 +1,8 @@
 package intnet15;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -19,7 +21,7 @@ public class Server {
 
         try {
             while (true) {
-                new CommunicationChannel(listener.accept()).start();
+                new Connection(listener.accept()).start();
             }
         } finally {
             listener.close();
@@ -30,12 +32,35 @@ public class Server {
     /**
      * A communication channel on its own thread
      * */
-    private static class CommunicationChannel extends Thread {
+    private static class Connection extends Thread {
         private Socket socket;
+        private String name = null;
+        private BufferedReader in;
+        private PrintWriter out;
 
-        public CommunicationChannel(Socket socket) {
+        public Connection(Socket socket) {
             this.socket = socket;
             System.out.println("New connection at socket " + socket);
+        }
+
+        public void run() {
+            try {
+
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream(), true);
+
+                while (name == null) {
+                    System.out.println("LOG: Requesting name");
+                    out.println("ENTER_NAME");
+                    name = in.readLine();
+                    System.out.println("LOG: User " + name + " has entered the chat");
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
