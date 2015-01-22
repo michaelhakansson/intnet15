@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
- * Chat client that connects to a server on port 8080.
+ * Chat client that connects to a server on port 1337.
  */
 public class Client {
 
@@ -15,7 +15,7 @@ public class Client {
         System.out.println("Enter server address: ");
         String serverAddress = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
-        Socket socket = new Socket(serverAddress, 8080);
+        Socket socket = new Socket(serverAddress, 1337);
         BufferedReader in = new BufferedReader( new InputStreamReader(socket.getInputStream()) );
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 

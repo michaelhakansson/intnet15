@@ -10,7 +10,7 @@ import java.util.Queue;
 import java.util.Vector;
 
 /**
- * A multi threaded TCP chat server that runs on port 8080.
+ * A multi threaded TCP chat server that runs on port 1337.
  */
 public class Server {
     //Contains a list of all the clients
@@ -26,6 +26,7 @@ public class Server {
 
     /**
      * Removes a client from the client vector
+     * TODO: Not used ATM since call is never really done
      */
     public static synchronized void removeClient(PrintWriter clientChannel) {
         writers.remove(clientChannel);
@@ -42,8 +43,8 @@ public class Server {
      * Sends messages to all the clients
      */
     private static synchronized void distributeMessages() {
-        String message;
-        while ((message = messages.poll()) != null) {
+        while (!messages.isEmpty()) {
+            String message = messages.poll();
             for (PrintWriter writer : writers) {
                 writer.println(message);
             }
@@ -56,7 +57,7 @@ public class Server {
     public static void main(String[] args) throws IOException {
         System.out.println("Chat server has been started");
 
-        ServerSocket listener = new ServerSocket(8080);
+        ServerSocket listener = new ServerSocket(1337);
 
         new Thread(new Distributor()).start();
 
