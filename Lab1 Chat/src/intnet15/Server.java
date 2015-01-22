@@ -71,7 +71,6 @@ public class Server {
      * Class for distributing the messages. This is run in an own thread.
      */
     private static class Distributor implements Runnable {
-        @Override
         public void run() {
             while (true) {
                 distributeMessages();
@@ -96,7 +95,6 @@ public class Server {
             System.out.println("LOG: " + message);
         }
 
-        @Override
         public void run() {
             try {
 

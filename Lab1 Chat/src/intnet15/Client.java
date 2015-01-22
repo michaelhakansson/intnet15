@@ -44,7 +44,6 @@ class SendMessage implements Runnable {
         this.out = out;
     }
 
-    @Override
     public void run() {
         try {
             while (true) {
