@@ -1,6 +1,7 @@
 package intnet15;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -10,38 +11,47 @@ import java.net.Socket;
  */
 public class Client {
 
-    private String askForServerAddress() throws Exception {
+    public static void main(String[] args) throws Exception {
         System.out.println("Enter server address: ");
         String serverAddress = new BufferedReader(new InputStreamReader(System.in)).readLine();
-        return serverAddress;
-    }
 
-    public void run () throws Exception {
-        Socket socket = new Socket(askForServerAddress(), 1337);
-
+        Socket socket = new Socket(serverAddress, 1337);
         BufferedReader in = new BufferedReader( new InputStreamReader(socket.getInputStream()) );
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
+        // Send message thread
+        new Thread(new SendMessage(out)).start();
+        String data;
+        while ((data = in.readLine()) != null) {
 
-        while (true) {
-            String data = in.readLine();
-
-            System.out.println(data);
-
-            // Server asks for name
-            if (data.equals("ENTER_NAME")) {
+            if (data.equals("ENTER_NAME")) { // Server asks for name
                 System.out.println("Enter your name: ");
-                String name = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                out.println(name); // Send the name to the server
-            } else if (data.equals("MESSAGE")) {
-
+                // SendMessage thread handles the sending of the name
+            } else if (data.startsWith("MESSAGE")) { // Message on the form "MESSAGE <username>: <message>"
+                System.out.println(data.substring(8)); // Removes the "MESSAGE " part of the data
             }
+
         }
     }
+}
 
-    public static void main(String[] args) throws Exception {
-        Client client = new Client();
-        client.run();
+class SendMessage implements Runnable {
+    private PrintWriter out;
+    String message;
+
+    public SendMessage(PrintWriter out) {
+        this.out = out;
     }
 
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                message = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                out.println(message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
