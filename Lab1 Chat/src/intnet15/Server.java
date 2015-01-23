@@ -116,6 +116,9 @@ public class Server {
                 while (true) {
                     String input = in.readLine();
                     if (input != null) {
+                        if (input.equals("quit")) {
+                            return;
+                        }
                         receiveMessage("MESSAGE " + username + ": " + input);
                         log("Message from " + username + " added to message list");
                     }
