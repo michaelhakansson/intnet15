@@ -49,6 +49,9 @@ class SendMessage implements Runnable {
             while (true) {
                 message = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 out.println(message);
+                if (message.equals("quit")) {
+                    System.exit(0);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
