@@ -26,7 +26,6 @@ public class Server {
 
     /**
      * Removes a client from the client vector
-     * TODO: Not used ATM since call is never really done
      */
     public static synchronized void removeClient(PrintWriter clientChannel) {
         writers.remove(clientChannel);
