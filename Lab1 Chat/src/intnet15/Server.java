@@ -39,18 +39,6 @@ public class Server {
     }
 
     /**
-     * Sends messages to all the clients
-     */
-    private static synchronized void distributeMessages() {
-        while (!messages.isEmpty()) {
-            String message = messages.poll();
-            for (PrintWriter writer : writers) {
-                writer.println(message);
-            }
-        }
-    }
-
-    /**
      * Runs the chat server
      */
     public static void main(String[] args) throws IOException {
@@ -58,8 +46,10 @@ public class Server {
 
         ServerSocket listener = new ServerSocket(1337);
 
+        // Thread for the message distribution
         new Thread(new Distributor()).start();
 
+        // Look for incoming connections and start new thread for each connection.
         while (true) {
             new Thread(new Connection(listener.accept())).start();
         }
@@ -70,12 +60,26 @@ public class Server {
      * Class for distributing the messages. This is run in an own thread.
      */
     private static class Distributor implements Runnable {
+
+        /**
+         * Sends messages to all the clients
+         */
+        private static synchronized void distributeMessages() {
+            while (!messages.isEmpty()) {
+                String message = messages.poll();
+                for (PrintWriter writer : writers) {
+                    writer.println(message);
+                }
+            }
+        }
+
         public void run() {
             while (true) {
                 distributeMessages();
             }
         }
     }
+
     /**
      * Each connected client receives its own thread for the connection.
      */

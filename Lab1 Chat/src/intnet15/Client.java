@@ -21,8 +21,9 @@ public class Client {
 
         // Send message thread
         new Thread(new SendMessage(out)).start();
+
+        // Read messages from the server
         String data;
-        // Reads on the in channel
         while ((data = in.readLine()) != null) {
             if (data.equals("ENTER_NAME")) { // Server asks for name
                 System.out.println("Enter your name: ");
@@ -36,6 +37,9 @@ public class Client {
     }
 }
 
+/**
+ * Read input and send input as message to the server.
+ */
 class SendMessage implements Runnable {
     private PrintWriter out;
     String message;
