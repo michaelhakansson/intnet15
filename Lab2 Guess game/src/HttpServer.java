@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 public class HttpServer{
 
     public static void main(String[] args) throws IOException {
-        ServerSocket ss = new ServerSocket(80);
+        ServerSocket ss = new ServerSocket(8000);
 
         while(true) {
             Socket s = ss.accept();
