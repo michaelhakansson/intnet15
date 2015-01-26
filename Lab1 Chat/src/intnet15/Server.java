@@ -61,21 +61,15 @@ public class Server {
      */
     private static class Distributor implements Runnable {
 
-        /**
-         * Sends messages to all the clients
-         */
-        private static synchronized void distributeMessages() {
-            while (!messages.isEmpty()) {
-                String message = messages.poll();
-                for (PrintWriter writer : writers) {
-                    writer.println(message);
-                }
-            }
-        }
-
         public void run() {
             while (true) {
-                distributeMessages();
+                // Sends messages to all the clients
+                while (!messages.isEmpty()) {
+                    String message = messages.poll();
+                    for (PrintWriter writer : writers) {
+                        writer.println(message);
+                    }
+                }
             }
         }
     }
@@ -106,7 +100,6 @@ public class Server {
 
                 // Join chat phase
                 while (username == null || username.equals("")) {
-                    System.out.println(socket);
                     log("Requesting username for socket " + socket);
                     out.println("ENTER_NAME"); // Ask client for username
                     username = in.readLine(); // Read username from client
