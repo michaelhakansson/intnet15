@@ -10,6 +10,11 @@ public class HttpClient{
         Socket s = new Socket(host,port);
         PrintStream utdata = new PrintStream(s.getOutputStream());
 
+        URL url = new URL("http", "localhost", "/guess.html");
+
+
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+
         utdata.println("GET /" + fil + " HTTP/1.1");
         s.shutdownOutput();
 
