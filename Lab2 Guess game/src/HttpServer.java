@@ -35,8 +35,7 @@ public class HttpServer{
 
             Random rand = new Random();
             // Random number between 1 and 100
-            //this.correctNumber = rand.nextInt(100) + 1;
-            this.correctNumber = 30;
+            this.correctNumber = rand.nextInt(100) + 1;
         }
 
         public void setHighGuess(int guess) {
@@ -93,7 +92,7 @@ public class HttpServer{
                 System.out.println(str);
                 StringTokenizer tokens = new StringTokenizer(str," ?");
 
-                tokens.nextToken();
+                tokens.nextToken(); // The word "GET"
                 String requestedDocument = tokens.nextToken();
                 if ((str = tokens.nextToken()).contains("guess=")) {
                     guess = Integer.parseInt( str.split("guess=")[1] );
@@ -102,15 +101,15 @@ public class HttpServer{
                 // Read the rest of the HTTP request
                 while( (str = request.readLine()) != null && str.length() > 0) {
                     if (str.contains("SESSION-ID=")) {
-                        sessionId = Integer.parseInt( str.split("SESSION-ID=")[1] );
+                        sessionId = Integer.parseInt( str.split("SESSION-ID=")[1].split(";")[0] );
                     }
-                    System.out.println(str);
                 }
 
                 if (!sessions.containsKey(sessionId)) { // No session exists
                     sessionId = addNewSession(); // Create and add new session
                 }
 
+                // Request done
                 socket.shutdownInput();
 
                 PrintStream response = null;
@@ -166,10 +165,7 @@ public class HttpServer{
                     }
                 }
 
-
                 socket.shutdownOutput();
-
-
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
