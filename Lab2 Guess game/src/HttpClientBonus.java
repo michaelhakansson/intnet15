@@ -14,7 +14,7 @@ import java.util.Vector;
 public class HttpClientBonus {
     private static Vector<Integer> guesses = new Vector<Integer>();
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Play the game 100 times
         for (int i = 0; i < 100; ++i) {

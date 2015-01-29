@@ -1,5 +1,11 @@
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.FileInputStream;
+import java.io.File;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.StringTokenizer;
@@ -9,7 +15,7 @@ public class HttpServer{
     private static int currentSessionId = 0;
     static HashMap<Integer, Session> sessions = new HashMap();
 
-    public static int addNewSession() {
+    private static int addNewSession() {
         int sessionId = ++currentSessionId;
         sessions.put(sessionId, new Session(sessionId));
         return sessionId;
