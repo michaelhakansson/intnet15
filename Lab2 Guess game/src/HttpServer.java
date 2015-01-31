@@ -12,21 +12,22 @@ import java.util.StringTokenizer;
 
 public class HttpServer{
 
-    private static int currentSessionId = 0;
-    static HashMap<Integer, Session> sessions = new HashMap();
-
-    private static int addNewSession() {
-        int sessionId = ++currentSessionId;
-        sessions.put(sessionId, new Session(sessionId));
-        return sessionId;
-    }
-
     public static void main(String[] args) throws IOException {
         ServerSocket ss = new ServerSocket(8000);
 
         while(true) {
             new Thread(new Connection(ss.accept())).start();
         }
+    }
+
+    private static int currentSessionId = 0;
+
+    static HashMap<Integer, Session> sessions = new HashMap();
+
+    private static int addNewSession() {
+        int sessionId = ++currentSessionId;
+        sessions.put(sessionId, new Session(sessionId));
+        return sessionId;
     }
 
     private static class Session {
