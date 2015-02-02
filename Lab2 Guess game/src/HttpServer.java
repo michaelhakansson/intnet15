@@ -12,6 +12,9 @@ import java.util.StringTokenizer;
 
 public class HttpServer{
 
+    static HashMap<Integer, Session> sessions = new HashMap();
+    private static int currentSessionId = 0;
+
     public static void main(String[] args) throws IOException {
         ServerSocket ss = new ServerSocket(8000);
 
@@ -19,10 +22,6 @@ public class HttpServer{
             new Thread(new Connection(ss.accept())).start();
         }
     }
-
-    private static int currentSessionId = 0;
-
-    static HashMap<Integer, Session> sessions = new HashMap();
 
     private static int addNewSession() {
         int sessionId = ++currentSessionId;
