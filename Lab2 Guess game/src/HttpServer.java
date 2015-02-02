@@ -81,6 +81,7 @@ public class HttpServer{
         private Socket socket;
         private int sessionId = -1;
         private int guess = -1;
+        Boolean cookieSet = false;
 
         public Connection(Socket socket) {
             this.socket = socket;
@@ -133,7 +134,11 @@ public class HttpServer{
                     response.println("Content-Type: image/gif");
                 }
 
-                response.println("Set-Cookie: SESSION-ID=" + currentSessionId + "; expires=Wednesday,31-Dec-15  21:00:00 GMT");
+                if (!cookieSet) {
+                    response.println("Set-Cookie: SESSION-ID=" + sessionId + "; expires=Wednesday,31-Dec-15  21:00:00 GMT");
+                    cookieSet = true;
+                }
+
                 response.println();
                 File f = new File("."+requestedDocument);
                 FileInputStream fis = new FileInputStream(f);
